@@ -1,6 +1,7 @@
 const connectDB = require("./database/db")
 const express = require("express")
 const dotenv = require("dotenv")
+const jobsRouter = require("./router/jobsrouter")
 dotenv.config()
 
 
@@ -10,7 +11,11 @@ const app = express()
 
 
 app.use(cors()) 
+app.use(express.json());
 
+
+
+app.use("/api",jobsRouter)
 // test route 
 app.get("/",(req,res)=>{
     res.json({message:"I am listening here!!"});

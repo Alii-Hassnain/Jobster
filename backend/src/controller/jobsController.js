@@ -1,8 +1,10 @@
 const Job = require("../model/jobsModel")
 
-const getJob = (req,res) =>{
+const getJob = async (req,res) =>{
     try {
-        const jobs = Job.find()
+        const jobs = await Job.find({})
+        console.log(jobs);
+        
         res.status(200).json({jobs})
     } catch (error) {
         res.status(500).json({
@@ -13,6 +15,7 @@ const getJob = (req,res) =>{
 
 const createJob = async (req,res) => {
     try {
+        console.log(req.body)
         const {position,company , jobType , jobStatus} = req.body;
         if(!position || !company){
             return res.status(400).json({
@@ -30,7 +33,13 @@ const createJob = async (req,res) => {
 const updateJob = async (req,res) =>{
     try {
         const {id} = req.params;
-        const updateJob = await Job.findByIdAndUpdate(id,req.body,{new:true})
+        console.log(req.body)
+        const updateJob = await Job.findByIdAndUpdate(id,req.body,
+        {
+            new:true,
+            runValidators: true,
+        })
+        console.log(updateJob)
         if(!updateJob){
             res.status(404).json({
                 error:"job not found"
@@ -42,6 +51,7 @@ const updateJob = async (req,res) =>{
     }
 
 }
+
 const deleteJob = async (req,res) => {
     try {
         const { id } = req.params;
