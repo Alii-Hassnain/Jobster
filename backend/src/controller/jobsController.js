@@ -16,15 +16,16 @@ const getJob = async (req,res) =>{
 const createJob = async (req,res) => {
     try {
         console.log(req.body)
-        const {position,company , jobType , jobStatus} = req.body;
+        const {position,company , location , status,type} = req.body;
         if(!position || !company){
             return res.status(400).json({
                 msg:"position and company is required"
             })
         }
-        const job = await Job.create({position,company,jobType,jobStatus});
+        const job = await Job.create({position,company,jobLocation:location,jobStatus:status,jobType:type});
         res.status(201).json(job);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({msg:"failed to create job"})
     }
 

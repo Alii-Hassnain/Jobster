@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("os");
 const { Schema } = mongoose;
 
 const JobSchema = new Schema({
@@ -16,6 +17,11 @@ const JobSchema = new Schema({
     type: String,
     enum: ["full-time", "part-time", "remote", "internship"],
     default: "full-time",
+  },
+  jobLocation:{
+    type: String,
+    required: [true, "Job Location is required"],
+    trim: true,
   },
   jobStatus: {
     type: String,
