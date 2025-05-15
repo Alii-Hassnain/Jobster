@@ -2,10 +2,35 @@ const Job = require("../model/jobsModel")
 
 const getJob = async (req,res) =>{
     try {
-        const jobs = await Job.find({})
-        console.log(jobs);
+        const {search , status , type, sort} = req.query;
+
+        const queryObject = {};
+
+        if(search){
+            queryObject.position = {$regex:search,$options:"i"};
+        }
+        if(status && status !== "all"){
+            queryObject.jobStatus = status;
+        }
+
+        if(type && type !== "all"){
+            queryObject.type = type;
+        }
         
-        res.status(200).json({jobs})
+        let result = Job.find(queryObject)
+        
+        if(sort === "latest"){
+            result = result.sort("-createdAt")
+        }else if(sort === "oldest"){
+            result = result.sort("createdAt")
+        }else if(sort === "a-z"){
+            result = result.sort("position")
+        }else if(sort === "z-a"){
+            result = result.sort("-position")
+        }
+        
+        const jobs = await result;
+        res.status(200).json(jobs)
     } catch (error) {
         res.status(500).json({
             error:"Failed to get jobs"
