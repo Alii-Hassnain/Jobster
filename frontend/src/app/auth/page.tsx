@@ -2,18 +2,23 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const[name,setName] = useState<string>("")
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const endpoint = isLogin ? "/api/auth/login":"/api/auth/register";
+    const endpoint = isLogin ? "auth/login" : "auth/register";
+    const payload = isLogin ? { email, password } : { name, email, password };
+    if (!isLogin && password !== confirmPassword) {
+      alert("Password do not match");
+    }
     if (isLogin) {
       console.log("Login:", { email, password });
     } else {
@@ -23,6 +28,21 @@ export default function Auth() {
       }
       console.log("Register:", { email, password, confirmPassword });
     }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_URI}/${endpoint}`,
+        payload
+      );
+      if(res.data?.token){
+        localStorage.setItem("token", res.data.token);
+        window.location.href = "/root";
+        alert("Login successfully")
+      }
+      alert("Register successfully");
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Something went wrong");
+    }
   };
   return (
     <main className="h-screen flex items-center justify-center ">
@@ -31,28 +51,25 @@ export default function Auth() {
           {isLogin ? "Login to Jobster" : "Register for Jobster"}
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {
-            !isLogin && (
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              type="name"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600"
-              placeholder="Enter your name"
-            />
-          </div>
-
-            )
-          }
+          {!isLogin && (
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                type="name"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600"
+                placeholder="Enter your name"
+              />
+            </div>
+          )}
           <div>
             <label
               htmlFor="email"

@@ -20,6 +20,7 @@ const registerUser = async (req,res)=>{
         email:user.email,
         // token:generatedToken(user._id)
     })
+    
 }
 const loginUser = async (req,res)=>{
     const {email,password} = req.body;

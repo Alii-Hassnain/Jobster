@@ -5,7 +5,6 @@ import SearchForm from "../components/SearchForm";
 import axios from "axios";
 import JobBox from "../components/JobBox";
 
-
 const allJobs = () => {
   const [jobs, setJobs] = React.useState([]);
   useEffect(() => {
