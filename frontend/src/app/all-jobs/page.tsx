@@ -5,6 +5,7 @@ import SearchForm from "../components/SearchForm";
 import axios from "axios";
 import JobBox from "../components/JobBox";
 
+
 const allJobs = () => {
   const [jobs, setJobs] = React.useState([]);
   useEffect(() => {
@@ -13,7 +14,9 @@ const allJobs = () => {
   const handleSearch = async (filters) => {
     console.log("Search Filters:", filters);
     try {
-      const response = await axios.get("http://localhost:5000/api/jobs", {
+      console.log(process.env.NEXT_PUBLIC_URI);
+      
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URI}/jobs`, {
         params: filters,
       });
       setJobs(response.data);
@@ -21,7 +24,6 @@ const allJobs = () => {
       console.error("error fetching jobs:", error);
     }
   };
-  
   return (
     <Layout>
       <SearchForm onSearch={handleSearch} />
@@ -29,7 +31,6 @@ const allJobs = () => {
         <h1>{jobs.length} Jobs Found</h1>
       </div>
       {/* <JobBox/> */}
-      
       <div className="grid grid-cols-3 gap-3">
         {jobs.map((job)=>{
           return (

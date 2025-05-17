@@ -12,6 +12,8 @@ export default function Auth() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const endpoint = isLogin ? "/api/auth/login":"/api/auth/register";
     if (isLogin) {
       console.log("Login:", { email, password });
     } else {
@@ -22,7 +24,6 @@ export default function Auth() {
       console.log("Register:", { email, password, confirmPassword });
     }
   };
-
   return (
     <main className="h-screen flex items-center justify-center ">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-md">
@@ -107,7 +108,6 @@ export default function Auth() {
               />
             </div>
           )}
-
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
@@ -115,7 +115,6 @@ export default function Auth() {
             {isLogin ? "Login" : "Register"}
           </button>
         </form>
-
         <p className="mt-4 text-center text-gray-600">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
           <button
