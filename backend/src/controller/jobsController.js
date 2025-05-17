@@ -55,7 +55,6 @@ const createJob = async (req,res) => {
     }
 
 }
-
 const updateJob = async (req,res) =>{
     try {
         const {id} = req.params;
@@ -75,9 +74,7 @@ const updateJob = async (req,res) =>{
     } catch (error) {
         res.status(500).json({ error: "Failed to update job" });
     }
-
 }
-
 const deleteJob = async (req,res) => {
     try {
         const { id } = req.params;
@@ -92,7 +89,6 @@ const deleteJob = async (req,res) => {
         res.status(500).json({ error: "Failed to delete job" });
       }
 }
-
 module.exports = {
     getJob,
     createJob,

@@ -16,7 +16,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Please enter your password"],
-    minlength: 6,
+    minlength: [6, "password sould be greater than 6"],
   },
 }, {
   timestamps: true

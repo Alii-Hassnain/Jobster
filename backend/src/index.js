@@ -2,6 +2,7 @@ const connectDB = require("./database/db")
 const express = require("express")
 const dotenv = require("dotenv")
 const jobsRouter = require("./router/jobsrouter")
+const authRouter = require("./router/authRouter")
 dotenv.config()
 
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 
 
+app.use("/auth",authRouter);
 app.use("/api",jobsRouter)
 // test route 
 app.get("/",(req,res)=>{
@@ -24,9 +26,10 @@ app.get('/api/message',(req,res)=>{
     res.json({message:"Hello from the node.js backend!"});
 })
 
+
+
 const PORT  = process.env.PORT || 3000;
 app.listen(PORT,()=>{
-    
     connectDB(process.env.MONGODB_URI)
     console.log(`Backend running on http://localhost:${PORT}`);
 })
