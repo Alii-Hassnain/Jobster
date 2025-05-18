@@ -28,6 +28,7 @@ const loginUser = async (req,res)=>{
     if(!user || !(await user.matchPassword(password))){
         return res.status(401).json({message:"Invalid email or password"})
     }
+    //this id will be used for the multiple jobs
     res.status(201).json({
         _id:user._id,
         name:user.name,

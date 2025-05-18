@@ -38,6 +38,7 @@ export default function Auth() {
         localStorage.setItem("token", res.data.token);
         window.location.href = "/root";
         alert("Login successfully")
+        return;
       }
       alert("Register successfully");
     } catch (err: any) {

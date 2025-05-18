@@ -62,9 +62,14 @@ export default function Navbar({ onToggleDrawer }) {
             {isOpen && (
               <div className="absolute left-0 right-0 mt-2 bg-white rounded-lg shadow-md z-30">
                 <Link
-                  href="/logout"
+                  href="/auth"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false)
+                    localStorage.removeItem("token");
+                    // window.location.href = "/auth"
+                    
+                  }}
                 >
                   Logout
                 </Link>

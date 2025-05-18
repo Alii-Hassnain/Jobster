@@ -47,12 +47,14 @@ const createJob = async (req, res) => {
         msg: "position and company is required",
       });
     }
+    console.log(req.userId)
     const job = await Job.create({
       position,
       company,
       jobLocation: location,
       jobStatus: status,
       jobType: type,
+      user:req.userId
     });
     res.status(201).json(job);
   } catch (error) {
