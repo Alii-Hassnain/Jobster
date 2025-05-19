@@ -5,6 +5,7 @@ const getJob = async (req, res) => {
     const { search, status, type, sort } = req.query;
 
     const queryObject = {};
+    queryObject.user = req.userId
 
     if (search) {
       queryObject.position = { $regex: search, $options: "i" };
@@ -47,7 +48,6 @@ const createJob = async (req, res) => {
         msg: "position and company is required",
       });
     }
-    console.log(req.userId)
     const job = await Job.create({
       position,
       company,

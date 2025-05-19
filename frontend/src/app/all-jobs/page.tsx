@@ -17,6 +17,9 @@ const allJobs = () => {
       
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URI}/jobs`, {
         params: filters,
+        headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+           },
       });
       setJobs(response.data);
     } catch (error) {
