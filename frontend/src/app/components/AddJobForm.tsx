@@ -1,19 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
-export default function AddJobForm({ onSubmit }) {
+export default function AddJobForm({ onSubmit , job }) {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [location, setLocation] = useState("");
   const [status, setStatus] = useState("interview");
   const [type, setType] = useState("full-time");
-
+  useEffect(()=>{
+      console.log(job);
+      if (job) {
+        setPosition(job.position || "");
+        setCompany(job.company || "");
+        setLocation(job.location || "");
+        setStatus(job.status || "interview");
+        setType(job.type || "full-time");
+        localStorage.removeItem("editJobData"); // ✅ Clear after loading
+      }
+    },[job])
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ position, company, location, status, type });
     clearForm();
   };
-
   const clearForm = () => {
     setPosition("");
     setCompany("");
@@ -21,7 +30,6 @@ export default function AddJobForm({ onSubmit }) {
     setStatus("interview");
     setType("full-time");
   };
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -46,7 +54,6 @@ export default function AddJobForm({ onSubmit }) {
         className="border border-gray-300 p-2 rounded-md w-full"
         required
       />
-
       {/* 📍 Location */}
       <input
         type="text"
@@ -56,7 +63,6 @@ export default function AddJobForm({ onSubmit }) {
         className="border border-gray-300 p-2 rounded-md w-full"
         required
       />
-
       {/* 📊 Status */}
       <select
         value={status}
@@ -67,7 +73,6 @@ export default function AddJobForm({ onSubmit }) {
         <option value="declined">Declined</option>
         <option value="pending">Pending</option>
       </select>
-
       {/* ⚙️ Job Type */}
       <select
         value={type}

@@ -43,7 +43,7 @@ const createJob = async (req, res) => {
   try {
     console.log(req.body);
     const { position, company, location, status, type } = req.body;
-    if (!position || !company) {
+    if (!position || !company || !location || !status || !type) {
       return res.status(400).json({
         msg: "position and company is required",
       });
@@ -63,9 +63,10 @@ const createJob = async (req, res) => {
   }
 };
 const updateJob = async (req, res) => {
+  console.log(req.body)
+  
   try {
     const { id } = req.params;
-    console.log(req.body);
     const updateJob = await Job.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,

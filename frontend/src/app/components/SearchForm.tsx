@@ -25,7 +25,6 @@ export default function SearchForm({ onSearch }) {
         onChange={(e) => setSearch(e.target.value)}
         className="border border-gray-300 p-2 rounded-md w-full"
       />
-
       {/* 📌 Status Filter */}
       <select
         value={status}
@@ -37,7 +36,6 @@ export default function SearchForm({ onSearch }) {
         <option value="declined">Declined</option>
         <option value="pending">Pending</option>
       </select>
-
       {/* ⚙️ Type Filter */}
       <select
         value={type}

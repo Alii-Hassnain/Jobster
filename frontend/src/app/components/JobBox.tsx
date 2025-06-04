@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const JobBox = ({
+  _id,
   company,
   createdAt,
   jobLocation,
@@ -9,6 +11,20 @@ const JobBox = ({
   jobType,
   position,
 }) => {
+  const router = useRouter()
+
+  const handleEdit = () => {
+  const jobData = {
+    _id,
+    position,
+    company,
+    jobLocation,
+    jobStatus,
+    jobType,
+  };
+  localStorage.setItem("editJobData", JSON.stringify(jobData));
+  router.push("/add-jobs"); // navigate to the add job page
+};
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-xl p-6">
       {/* Header Section */}
@@ -104,10 +120,12 @@ const JobBox = ({
 
       {/* Action Buttons */}
       <div className="flex justify-end space-x-4 mt-6">
-        <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200">
+        <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200 cursor-pointer"
+        onClick={handleEdit}
+        >
           Edit
         </button>
-        <button className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors duration-200">
+        <button className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors duration-200 cursor-pointer">
           Delete
         </button>
       </div>
